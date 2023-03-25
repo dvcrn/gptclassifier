@@ -72,4 +72,6 @@ curl -X POST -H "Content-Type: application/json" -d '{"content":"This is my cred
 
 ## License
 
-MIT
+AGPL for non-commercial/personal use
+
+If you'd like to integrate this code as is into a commercial project, reach out
