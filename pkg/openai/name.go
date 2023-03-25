@@ -13,7 +13,7 @@ func (c *OpenAIClient) Name(content string, extension string, amount int, exampl
 		example = fmt.Sprintf("An example of how the names should look like is %s", example)
 	}
 
-	messageContent := fmt.Sprintf("Given the following content, generate %d DESCRIPTIVE file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. %s", amount, extension, example)
+	messageContent := fmt.Sprintf("Given the following content, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. %s", amount, extension, example)
 
 	messages := []openai.ChatCompletionMessage{
 		{
