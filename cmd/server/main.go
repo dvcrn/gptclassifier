@@ -89,7 +89,7 @@ func classifyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := openai.New(classifyReq.APIKey)
+	client := openai.New(apiKey)
 	result, err := command.Classify(classifyReq.Content, client, classifyReq.Options)
 	if err != nil {
 		writeJSONResponse(w, classificationResponse{Success: false, Error: err.Error()})
@@ -136,7 +136,7 @@ func nameHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := openai.New(nameReq.APIKey)
+	client := openai.New(apiKey)
 	result, err := command.Name(nameReq.Content, client, nameReq.FileType, nameReq.NumNames, nameReq.ExampleNames)
 	if err != nil {
 		writeJSONResponse(w, nameResponse{Success: false, Error: err.Error()})
