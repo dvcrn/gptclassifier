@@ -15,7 +15,7 @@ func (c *OpenAIClient) Name(content string, extension string, amount int, exampl
 		examples = fmt.Sprintf("Consider this list of example file names and follow similar naming: \n- %s", strings.Join(example, "\n- "))
 	}
 
-	messageContent := fmt.Sprintf("Given the following content sent in the next message, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. Spaces are fine to include in the file name. %s", amount, extension, examples)
+	messageContent := fmt.Sprintf("Given the following content sent in the next message, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. OUTPUT THE NAMES COMMA SEPARATED, IN ONE LINE, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. Spaces and foreign characters are fine to include in the file names. %s", amount, extension, examples)
 
 	promptTokenCount := utils.CountTokens(messageContent)
 
