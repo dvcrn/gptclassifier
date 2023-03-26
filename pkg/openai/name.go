@@ -5,15 +5,19 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/dvcrn/gptclassifier/internal/utils"
 	openai "github.com/sashabaranov/go-openai"
 )
 
-func (c *OpenAIClient) Name(content string, extension string, amount int, example string) ([]string, error) {
-	if example != "" {
-		example = fmt.Sprintf("An example of how the names should look like is %s", example)
+func (c *OpenAIClient) Name(content string, extension string, amount int, example []string) ([]string, error) {
+	examples := ""
+	if len(example) > 0 {
+		examples = fmt.Sprintf("This is a list of valid example names: %s", strings.Join(example, ", "))
 	}
 
-	messageContent := fmt.Sprintf("Given the following content, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. %s", amount, extension, example)
+	messageContent := fmt.Sprintf("Given the following content, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. %s", amount, extension, examples)
+
+	promptTokenCount := utils.CountTokens(messageContent)
 
 	messages := []openai.ChatCompletionMessage{
 		{
@@ -22,15 +26,16 @@ func (c *OpenAIClient) Name(content string, extension string, amount int, exampl
 		},
 		{
 			Role:    openai.ChatMessageRoleUser,
-			Content: content,
+			Content: utils.SliceTokens(content, 2800-promptTokenCount),
 		},
 	}
 
 	resp, err := c.client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
-			Model:    openai.GPT3Dot5Turbo,
-			Messages: messages,
+			Model:       openai.GPT3Dot5Turbo,
+			Messages:    messages,
+			Temperature: 0.5,
 		},
 	)
 

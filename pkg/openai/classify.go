@@ -5,28 +5,33 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/dvcrn/gptclassifier/internal/utils"
 	openai "github.com/sashabaranov/go-openai"
 )
 
 func (c *OpenAIClient) Classify(content string, options []string) (string, error) {
 	optionsText := strings.Join(options, ", ")
 
+	prompt := fmt.Sprintf("Classify the given content into one of the following options: '%s'. Only respond with classification and NOTHING ELSE. Do NOT change the casing or add punctuation, ONLY respond with one of the options given.", optionsText)
+	promptTokenCount := utils.CountTokens(prompt)
+
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleUser,
-			Content: fmt.Sprintf("Classify the given content into one of the following options: '%s'. Only respond with classification and NOTHING ELSE. Do NOT change the casing or add punctuation, ONLY respond with one of the options given.", optionsText),
+			Content: prompt,
 		},
 		{
 			Role:    openai.ChatMessageRoleUser,
-			Content: content,
+			Content: utils.SliceTokens(content, 2800-promptTokenCount),
 		},
 	}
 
 	resp, err := c.client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
-			Model:    openai.GPT3Dot5Turbo,
-			Messages: messages,
+			Model:       openai.GPT3Dot5Turbo,
+			Messages:    messages,
+			Temperature: 0.5,
 		},
 	)
 

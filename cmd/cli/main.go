@@ -20,7 +20,7 @@ var (
 	options      string
 	numNames     int
 	fileType     string
-	fileName     string
+	exampleNames string
 )
 
 func init() {
@@ -32,7 +32,7 @@ func init() {
 	flag.StringVar(&options, "options", "", "Comma-separated list of options for classification")
 	flag.IntVar(&numNames, "num_names", 5, "Number of names to generate")
 	flag.StringVar(&fileType, "file_type", "", "File type")
-	flag.StringVar(&fileName, "example_name", "", "Example of file name")
+	flag.StringVar(&exampleNames, "example_names", "", "Examples of file names")
 }
 
 func main() {
@@ -78,7 +78,7 @@ func main() {
 			return
 		}
 
-		result, err := command.Name(content, client, fileType, numNames, fileName)
+		result, err := command.Name(content, client, fileType, numNames, strings.Split(exampleNames, ","))
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			return

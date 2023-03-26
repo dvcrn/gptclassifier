@@ -18,12 +18,12 @@ type classifyRequest struct {
 }
 
 type nameRequest struct {
-	Content      string `json:"content"`
-	APIKey       string `json:"apikey"`
-	Organization string `json:"organization"`
-	ExampleName  string `json:"exampleName,omitempty"`
-	FileType     string `json:"fileType,omitempty"`
-	NumNames     int    `json:"numNames,omitempty"`
+	Content      string   `json:"content"`
+	APIKey       string   `json:"apikey"`
+	Organization string   `json:"organization"`
+	ExampleNames []string `json:"exampleNames,omitempty"`
+	FileType     string   `json:"fileType,omitempty"`
+	NumNames     int      `json:"numNames,omitempty"`
 }
 
 type classificationResponse struct {
@@ -108,7 +108,7 @@ func nameHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := openai.New(nameReq.APIKey)
-	result, err := command.Name(nameReq.Content, client, nameReq.FileType, nameReq.NumNames, nameReq.ExampleName)
+	result, err := command.Name(nameReq.Content, client, nameReq.FileType, nameReq.NumNames, nameReq.ExampleNames)
 	if err != nil {
 		writeJSONResponse(w, nameResponse{Success: false, Error: err.Error()})
 		return

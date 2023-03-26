@@ -24,7 +24,7 @@ credit card
 ### Name: 
 
 ```
-./gpt-classifier -organization "openai org" -apikey "openai api key" -action name -content "this is regarding your credit card bill" -file_type "pdf" -example_name "2023-01-bill.pdf" -num_names 5
+./gpt-classifier -organization "openai org" -apikey "openai api key" -action name -content "this is regarding your credit card bill" -file_type "pdf" -example_names "2023-01-bill.pdf,2023-06-electricity-bill.pdf" -num_names 5
 
 2022-05-credit-card-bill.pdf,credit-card-bill-05-2022.pdf,cc-bill-may-2022.pdf,2022-05-credit-card-statement.pdf,may-2022-credit-card-invoice.pdf
 ```
@@ -50,13 +50,13 @@ curl -X POST -H "Content-Type: application/json" -d '{"content":"This is my cred
 To use the HTTP server, send a `POST` request to the `/name` endpoint with a JSON payload containing the following fields:
 - `content`: the content to be classified
 - `fileType`: file type of the content (pdf, txt, etc)
-- `exampleName`: example how the file name should look like
+- `exampleNames`: examples of how the file name should look like
 - `numNames`: how many names to generate
 - `apikey`: the OpenAI API key
 - `organization`: the OpenAI organization
 
 ```
-curl -X POST -H "Content-Type: application/json" -d '{"content":"This is my credit card statement","fileType": "pdf","exampleName":"2023-03-water-bill.pdf","apikey":"xxx","organization":"xxx"}' http://localhost:8080/name | json_pp
+curl -X POST -H "Content-Type: application/json" -d '{"content":"This is my credit card statement","fileType": "pdf","exampleNames":["2023-03-water-bill.pdf", "2023-06-electricity-bill.pdf"],"apikey":"xxx","organization":"xxx"}' http://localhost:8080/name | json_pp
 
 {
    "names" : [
