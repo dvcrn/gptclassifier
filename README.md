@@ -33,6 +33,20 @@ credit card
 
 ## Using the HTTP Server
 
+With docker: 
+
+```
+docker run -p 8080:8080 dvcrn/gptclassifier
+```
+
+With go:
+
+```
+go run cmd/server/main.go
+```
+
+You can also set `OPENAI_API_KEY` and `OPENAI_ORGANIZATION` and leave out passing it as args. Args will overwrite env variables.
+
 ### Classify:
 
 To use the HTTP server, send a `POST` request to the `/classify` endpoint with a JSON payload containing the following fields:
@@ -47,7 +61,6 @@ curl -X POST -H "Content-Type: application/json" -d '{"content":"This is my cred
 {"success":true,"result":"credit card"}⏎
 ```
 
-You can also set `OPENAI_API_KEY` and `OPENAI_ORGANIZATION` and leave out passing it as args. Args will overwrite env variables.
 
 ### Name:
 
