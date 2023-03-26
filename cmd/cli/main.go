@@ -27,7 +27,7 @@ func init() {
 	flag.StringVar(&content, "content", "", "Content to process")
 	flag.StringVar(&filepath, "filepath", "", "Path to the file with content")
 	flag.StringVar(&apiKey, "apikey", os.Getenv("OPENAI_API_KEY"), "OpenAI API key")
-	flag.StringVar(&organization, "organization", os.Getenv("OPENAI_API_SECRET"), "OpenAI organization")
+	flag.StringVar(&organization, "organization", os.Getenv("OPENAI_ORGANIZATION"), "OpenAI organization")
 	flag.StringVar(&action, "action", "", "Action to perform (classify or name)")
 	flag.StringVar(&options, "options", "", "Comma-separated list of options for classification")
 	flag.IntVar(&numNames, "num_names", 5, "Number of names to generate")

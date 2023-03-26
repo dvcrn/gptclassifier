@@ -12,10 +12,10 @@ import (
 func (c *OpenAIClient) Name(content string, extension string, amount int, example []string) ([]string, error) {
 	examples := ""
 	if len(example) > 0 {
-		examples = fmt.Sprintf("This is a list of valid example names: %s", strings.Join(example, ", "))
+		examples = fmt.Sprintf("This is a list of example file names, follow similar naming, punctuation and spacing (usage of spaces, dashes, underscores): \n- %s", strings.Join(example, "\n- "))
 	}
 
-	messageContent := fmt.Sprintf("Given the following content, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. %s", amount, extension, examples)
+	messageContent := fmt.Sprintf("Given the following content, generate %d (not more and not less) concise but descriptive file names that could fit this content. The file type is %s. Output the names comma-separated, in one line, and nothing else. DO NOT OUTPUT BULLETPOINTS OR A LIST. Spaces are fine to include in the file name. %s", amount, extension, examples)
 
 	promptTokenCount := utils.CountTokens(messageContent)
 

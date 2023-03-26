@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/dvcrn/gptclassifier/internal/command"
 	"github.com/dvcrn/gptclassifier/pkg/openai"
@@ -38,11 +39,19 @@ type nameResponse struct {
 	Names   []string `json:"names"`
 }
 
+var OPENAI_API_KEY = os.Getenv("OPENAI_API_KEY")
+var OPENAI_ORG = os.Getenv("OPENAI_ORGANIZATION")
+
 func main() {
 	http.HandleFunc("/classify", classifyHandler)
 	http.HandleFunc("/name", nameHandler)
 
-	port := "8080"
+	// read port from env
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	fmt.Println("Starting server on port", port)
 	http.ListenAndServe(":"+port, nil)
 }
@@ -60,7 +69,17 @@ func classifyHandler(w http.ResponseWriter, r *http.Request) {
 
 	classifyReq := req.(*classifyRequest)
 
-	if classifyReq.APIKey == "" || classifyReq.Organization == "" {
+	apiKey := classifyReq.APIKey
+	if apiKey == "" {
+		apiKey = OPENAI_API_KEY
+	}
+
+	org := classifyReq.Organization
+	if org == "" {
+		org = OPENAI_ORG
+	}
+
+	if apiKey == "" || org == "" {
 		writeJSONResponse(w, classificationResponse{Success: false, Error: "API key or organization not provided"})
 		return
 	}
@@ -93,7 +112,17 @@ func nameHandler(w http.ResponseWriter, r *http.Request) {
 
 	nameReq := req.(*nameRequest)
 
-	if nameReq.APIKey == "" || nameReq.Organization == "" {
+	apiKey := nameReq.APIKey
+	if apiKey == "" {
+		apiKey = OPENAI_API_KEY
+	}
+
+	org := nameReq.Organization
+	if org == "" {
+		org = OPENAI_ORG
+	}
+
+	if apiKey == "" || org == "" {
 		writeJSONResponse(w, classificationResponse{Success: false, Error: "API key or organization not provided"})
 		return
 	}
