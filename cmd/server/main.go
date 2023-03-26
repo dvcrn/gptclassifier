@@ -149,13 +149,13 @@ func nameHandler(w http.ResponseWriter, r *http.Request) {
 func parseRequest(target interface{}, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, "Error reading request body", http.StatusInternalServerError)
+		http.Error(w, "Error reading request body: "+err.Error(), http.StatusInternalServerError)
 		return nil, err
 	}
 
 	err = json.Unmarshal(body, target)
 	if err != nil {
-		http.Error(w, "Error parsing request body", http.StatusBadRequest)
+		http.Error(w, "Error parsing json body "+err.Error(), http.StatusBadRequest)
 		return nil, err
 	}
 
