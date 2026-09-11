@@ -1,6 +1,6 @@
 module github.com/dvcrn/gptclassifier
 
-go 1.20
+go 1.25.0
 
 require (
 	github.com/ledongthuc/pdf v0.0.0-20220302134840-0c2507a12d80
@@ -15,5 +15,5 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/samber/lo v1.37.0 // indirect
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
-	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 )
